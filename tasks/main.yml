@@ -1,2 +1,44 @@
 ---
-# tasks file for bootstrap-coreos
+- block:
+    - name: Check if python interpreter exists
+      raw: "{{ ansible_python_interpreter }} --version"
+      register: python_interpreter_exists
+
+    - name: Check if PyPy tar file exists
+      raw: "stat /tmp/pypy2-{{ pypy_version }}.tar.bz2"
+      register: pypy_tar_file_exists
+
+    - name: Check if pypy directory exists
+      raw: "stat {{ pypy_dir }}"
+      register: pypy_dir_exists
+
+    - name: Check if libtinfo symlink exists
+      raw: "stat {{ pypy_dir }}/lib/libtinfo.so.5"
+      register: libtinfo_symlink_exists
+      when: pypy_dir_exists
+
+    - name: Check if pip is installed
+      raw: "{{ ansible_python_interpreter }} -m pip --version"
+      register: pip_installed
+      when: python_interpreter_exists
+  ignore_errors: yes
+
+- name: Download PyPy tar file
+  raw: "wget -O /tmp/pypy2-{{ pypy_version }}.tar.bz2 https://bitbucket.org/pypy/pypy/downloads/pypy2-v{{ pypy_version }}-linux64.tar.bz2 "
+  when: pypy_tar_file_exists|failed
+
+- name: Extract PyPy
+  raw: "mkdir -p {{ pypy_dir }} && tar xf /tmp/pypy2-{{ pypy_version }}.tar.bz2 -C {{ pypy_dir }}/ --strip-components=1"
+  when: pypy_dir_exists|failed
+
+- name: Symlink libncurses.so.5.9 as libtinfo.so.5
+  raw: "mkdir -p {{ pypy_dir }}/lib && ln -s /lib64/libncurses.so.5.9 {{ pypy_dir }}/lib/libtinfo.so.5"
+  when: libtinfo_symlink_exists|failed
+
+- name: Install python interpreter
+  script: "install_python_binary.sh {{ pypy_dir }} {{ ansible_python_interpreter }}"
+  when: python_interpreter_exists|failed
+
+- name: Install pip
+  raw: "{{ ansible_python_interpreter }} -m ensurepip"
+  when: pip_installed|failed

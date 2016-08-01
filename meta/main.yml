@@ -8,4 +8,4 @@ galaxy_info:
     - coreos
     - system
   platforms: []
-  dependencies: []
+dependencies: []

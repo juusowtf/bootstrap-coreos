@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/jzmch/bootstrap-coreos.svg?branch=master)](https://travis-ci.org/jzmch/bootstrap-coreos)
 # bootstrap-coreos
 
 Yet another role to bootstrap CoreOS for Ansible provisioning. As you might know, Ansible needs a Python interpreter on the server for most of the Ansible modules to work. There isn't one in CoreOS by default. So we're going to install [PyPy](http://pypy.org/index.html) on it.

@@ -12,9 +12,12 @@ None.
 ## Role Variables
 ```yaml
 # Variables and their default values as set in defaults/main.yml
-pypy_install_location: /usr/share/pypy
+pypy_dir: /home/core/lib/pypy
 pypy_version: 5.3.1
+ansible_python_interpreter: /home/core/bin/python
 ```
+You should set the values for these in your inventory/group_vars/host_vars/playbook etc.
+
 ## Dependencies
 
 None.

@@ -1,2 +1,3 @@
 ---
-# defaults file for bootstrap-coreos
+pypy_install_location: /usr/share/pypy
+pypy_version: 5.3.1

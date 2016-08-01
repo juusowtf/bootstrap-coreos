@@ -6,3 +6,5 @@ galaxy_info:
   galaxy_tags:
     - coreos
     - system
+  platforms: []
+  dependencies: []

@@ -42,3 +42,6 @@
 - name: Install pip
   raw: "{{ ansible_python_interpreter }} -m ensurepip"
   when: pip_installed|failed
+
+- name: Install docker-py
+  raw: "{{ ansible_python_interpreter }} -m pip install docker-py"

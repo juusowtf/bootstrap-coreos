@@ -1,5 +1,5 @@
 ---
-- hosts: localhost
-  remote_user: root
+- hosts: vagrant
+  gather_facts: no
   roles:
     - bootstrap-coreos
